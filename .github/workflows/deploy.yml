@@ -10,4 +10,4 @@ jobs:
       - name: Build
         run: npm run build
       - name: Deploy
-        run: npx now deploy --token ${{ secrets.VERCEL_TOKEN }}
+        run: npx now deploy --token ${{ secrets.VERCEL_TOKEN }} --name ontario-covid-tracker
