@@ -1,0 +1,23 @@
+name: run-search-indexer
+on:
+  schedule:
+    - cron: "0 22 * * *"
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
+      - run: npm ci
+      - name: Start Indexer
+        run: npm run indexer
+        env:
+          dataApiBaseUrl:  "https://data.ontario.ca/api/3/action/datastore_search";
+          resourceId:  "455fd63b-603d-4608-8216-7d8647f43350";
+          limit:  30000;
+          serviceName:  "covid-search";
+          indexName:  "ca-ontario-index";
+          apiKey:  ${{ secrets.API_KEY }};
+          apiVersion:  "2019-05-06";

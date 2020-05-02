@@ -13,4 +13,4 @@ jobs:
           node-version: 10
       - run: npm ci
       - run: npm run build
-      - run: npx now --prod --confirm --token ${{ secrets.VERCEL_TOKEN }} --name ontario-covid-tracker
+      - run: npx now --prod --confirm --token ${{ secrets.VERCEL_TOKEN }}
