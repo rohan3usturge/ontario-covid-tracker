@@ -1,0 +1,16 @@
+name: Deploy to vercel
+on: [push]
+
+jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Now
+        run: npm i now -g
+      - name: Install Deps
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Deploy
+        run: now deploy --token ${{ secrets.VERCEL_TOKEN }}
