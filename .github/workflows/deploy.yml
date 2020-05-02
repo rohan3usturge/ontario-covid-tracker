@@ -1,6 +1,5 @@
 name: Deploy to vercel
 on: [push]
-
 jobs:
   build:
     name: Deploy
