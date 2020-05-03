@@ -26,7 +26,6 @@ export default {
         isProd: production,
         serviceName,
         indexName,
-        apiKey,
         apiVersion,
         ...dotenvConfig,
       }),
