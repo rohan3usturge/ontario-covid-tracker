@@ -1,7 +1,8 @@
 name: run-search-indexer-v2
 on:
-  schedule:
-    - cron: "* * * * *"
+  push:
+    branches:
+      - master
 jobs:
   index:
     runs-on: ubuntu-latest
