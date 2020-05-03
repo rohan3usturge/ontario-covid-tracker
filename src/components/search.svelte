@@ -1,3 +1,3 @@
-<div>
-  <span>Search</span>
+<div class="jumbotron">
+  <h1 class="display-4">Coming Soon</h1>
 </div>

@@ -3,21 +3,13 @@
   import About from "./about.svelte";
   import Search from "./search.svelte";
   import DataSource from "./datasource.svelte";
-
-  let currentComoonent = "home";
-  const displayComponent = component => {
-    currentComoonent = component;
-  };
+  import { Router, Link, Route, link } from "svelte-routing";
+  export let url = "/";
 </script>
 
-<header>
+<Router {url}>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <!-- svelte-ignore a11y-missing-attribute -->
-    <a
-      class="navbar-brand"
-      on:click|preventDefault={() => displayComponent('home')}>
-      Covid19 Info
-    </a>
+    <a class="navbar-brand mb-0 h1" href="/" use:link>Covid19 Info</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -30,58 +22,38 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item active">
-          <!-- svelte-ignore a11y-missing-attribute -->
-          <a
-            class="nav-link"
-            on:click|preventDefault={() => displayComponent('home')}>
-            Home
-            <span class="sr-only">(current)</span>
-          </a>
+        <li
+          class="nav-item {url === '/' ? 'active' : ''}"
+          on:click={() => (url = '/')}>
+          <a class="nav-link" href="/" use:link>Home</a>
         </li>
-        <li class="nav-item">
-          <!-- svelte-ignore a11y-missing-attribute -->
-          <a
-            class="nav-link"
-            on:click|preventDefault={() => displayComponent('search')}>
-            Search
-          </a>
+        <li
+          class="nav-item {url === '/search' ? 'active' : ''}"
+          on:click={() => (url = '/search')}>
+          <a class="nav-link" href="/search" use:link>Search</a>
         </li>
-        <li class="nav-item">
-          <!-- svelte-ignore a11y-missing-attribute -->
-          <a
-            class="nav-link"
-            on:click|preventDefault={() => displayComponent('aboutus')}>
-            About us
-          </a>
+        <li
+          class="nav-item {url === '/about' ? 'active' : ''}"
+          on:click={() => (url = '/about')}>
+          <a class="nav-link" href="/about" use:link>About Us</a>
         </li>
-        <li class="nav-item">
-          <!-- svelte-ignore a11y-missing-attribute -->
-          <a
-            class="nav-link"
-            on:click|preventDefault={() => displayComponent('datasource')}>
-            Datasource
-          </a>
+        <li
+          class="nav-item {url === '/datasource' ? 'active' : ''}"
+          on:click={() => (url = '/datasource')}>
+          <a class="nav-link" href="/datasource" use:link>Datasource</a>
         </li>
       </ul>
     </div>
   </nav>
-</header>
-
-<main>
-  <div class="container-fluid">
-
-    {#if currentComoonent === 'home'}
-      <Home />
-    {/if}
-    {#if currentComoonent === 'aboutus'}
-      <About />
-    {/if}
-    {#if currentComoonent === 'search'}
-      <Search />
-    {/if}
-    {#if currentComoonent === 'datasource'}
-      <DataSource />
-    {/if}
+  <div class="alert alert-primary mt-1" role="alert">
+    Website Currenly shows only ONTARIO Provice data. More is coming soon.
   </div>
-</main>
+  <div>
+    <Route path="datasource" component={DataSource} />
+    <Route path="search" component={Search} />
+    <Route path="about" component={About} />
+    <Route path="/">
+      <Home />
+    </Route>
+  </div>
+</Router>

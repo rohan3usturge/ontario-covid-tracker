@@ -7,4 +7,6 @@
   fcRoot(FusionCharts, Charts, FusionTheme);
 </script>
 
-<Layout />
+<div class="container">
+  <Layout />
+</div>

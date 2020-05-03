@@ -113,29 +113,30 @@
 </script>
 
 <div>
-  <div style="margin-top: 25px;" />
+  <div class="mt-4" />
   <div class="card">
     <div class="card-body">
       <h6>
-        Showing data for
-        <small class="text-muted">{selectedCity}</small>
+        Showing data for Ontario
+        <small class="text-muted">for following filters</small>
       </h6>
+      <div class="mt-2" />
       <div class="btn-group fluid" role="group" aria-label="Basic example">
         <button
           type="button"
-          class="btn btn-secondary"
+          class="btn btn-primary {searchPayload.filters.Accurate_Episode_Date === 'overall' ? 'active' : ''}"
           on:click={() => handleDataRangeClick('lastYear')}>
-          Overall
+          Till today
         </button>
         <button
           type="button"
-          class="btn btn-secondary"
+          class="btn btn-primary {searchPayload.filters.Accurate_Episode_Date === 'lastWeek' ? 'active' : ''}"
           on:click={() => handleDataRangeClick('lastWeek')}>
           Last 7 days
         </button>
         <button
           type="button"
-          class="btn btn-secondary"
+          class="btn btn-primary {searchPayload.filters.Accurate_Episode_Date === 'lastMonth' ? 'active' : ''}"
           on:click={() => handleDataRangeClick('lastMonth')}>
           Last 1 month
         </button>
@@ -159,7 +160,7 @@
     </div>
   </div>
 
-  <div style="margin-top: 25px;" />
+  <div class="mt-4" />
   <div class="row">
     {#each outcomeCounts as { name, count, textStyle }}
       <div class="col-sm-6 col-md-4 col-lg-2">
@@ -167,10 +168,10 @@
       </div>
     {/each}
   </div>
-  <div style="margin-top: 25px;" />
+  <div class="mt-4" />
   <div class="row">
     {#each facetArray as { name, value }}
-      <div class="col-sm col-md col-lg-4">
+      <div class="col-sm col-md col-lg-4 mt-4">
         <BarChart {name} {value} />
       </div>
     {/each}

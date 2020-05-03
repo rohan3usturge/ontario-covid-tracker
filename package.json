@@ -4,7 +4,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public",
+    "start": "sirv public -s",
     "clean": "rm -rf public/build",
     "indexer": "ts-node ./src/job/indexer.ts"
   },
@@ -26,6 +26,7 @@
     "moment": "^2.25.1",
     "sirv-cli": "0.4.4",
     "svelte-fusioncharts": "^1.0.0",
+    "svelte-routing": "^1.4.2",
     "ts-node": "^8.9.1",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
