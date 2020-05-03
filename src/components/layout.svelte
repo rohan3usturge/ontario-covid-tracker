@@ -12,9 +12,9 @@
 
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- svelte-ignore a11y-missing-attribute -->
     <a
       class="navbar-brand"
-      href="#"
       on:click|preventDefault={() => displayComponent('home')}>
       Covid19 Info
     </a>
@@ -31,35 +31,35 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
+          <!-- svelte-ignore a11y-missing-attribute -->
           <a
             class="nav-link"
-            href="#"
-            on:click={() => displayComponent('home')}>
+            on:click|preventDefault={() => displayComponent('home')}>
             Home
             <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item">
+          <!-- svelte-ignore a11y-missing-attribute -->
           <a
             class="nav-link"
-            href="#"
-            on:click={() => displayComponent('search')}>
+            on:click|preventDefault={() => displayComponent('search')}>
             Search
           </a>
         </li>
         <li class="nav-item">
+          <!-- svelte-ignore a11y-missing-attribute -->
           <a
             class="nav-link"
-            href="#"
-            on:click={() => displayComponent('aboutus')}>
+            on:click|preventDefault={() => displayComponent('aboutus')}>
             About us
           </a>
         </li>
         <li class="nav-item">
+          <!-- svelte-ignore a11y-missing-attribute -->
           <a
             class="nav-link"
-            href="#"
-            on:click={() => displayComponent('datasource')}>
+            on:click|preventDefault={() => displayComponent('datasource')}>
             Datasource
           </a>
         </li>
