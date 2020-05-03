@@ -23,7 +23,6 @@ export default {
   plugins: [
     replace({
       covidTrackerConfig: JSON.stringify({
-        isProd: production,
         serviceName,
         indexName,
         apiKey,
