@@ -10,6 +10,8 @@ const production = !process.env.ROLLUP_WATCH;
 
 const { serviceName, indexName, apiKey, apiVersion } = process.env;
 
+const dotenvConfig = production ? {} : config().parsed;
+
 export default {
   input: "src/main.js",
   output: {
@@ -26,7 +28,7 @@ export default {
         indexName,
         apiKey,
         apiVersion,
-        ...config().parsed,
+        ...dotenvConfig,
       }),
     }),
     svelte({
