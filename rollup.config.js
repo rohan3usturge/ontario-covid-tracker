@@ -8,6 +8,14 @@ import replace from "@rollup/plugin-replace";
 
 const production = !process.env.ROLLUP_WATCH;
 
+const { serviceName, indexName, apiKey, apiVersion } = process.env;
+console.log({
+  serviceName,
+  indexName,
+  apiKey,
+  apiVersion,
+});
+
 export default {
   input: "src/main.js",
   output: {
