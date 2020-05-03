@@ -3,7 +3,7 @@ const displayNameConfig = [
   { id: "Client_Gender", displayName: "Gender" },
   { id: "Reporting_PHU_City", displayName: "City" },
   { id: "Outcome1", displayName: "Outcome" },
-  { id: "Accurate_Episode_Date", displayName: "Episode Date" },
+  { id: "Accurate_Episode_Date", displayName: "Daily Cases" },
 ];
 
 export const displayName = (id) => {

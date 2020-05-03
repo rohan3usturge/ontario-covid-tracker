@@ -7,7 +7,7 @@
 
   // Constants
   const facets = [
-    "Age_Group",
+    "Age_Group,sort:value",
     "Client_Gender",
     "Reporting_PHU_City",
     "Outcome1",
@@ -92,7 +92,13 @@
 
   const searchAndSetFacets = async () => {
     facetArray = await getFacets(searchPayload);
-    console.log({ facetArray });
+    for (const facet of facetArray) {
+      if (facet.name === "Age_Group") {
+        facet.value = facet.value.sort(lv =>
+          lv.value.startsWith("<") ? -1 : 0
+        );
+      }
+    }
     setCities(facetArray);
     setOutcomes(facetArray);
   };
