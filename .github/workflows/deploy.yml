@@ -19,5 +19,4 @@ jobs:
           indexName: "ca-ontario-index"
           apiKey: ${{ secrets.SEARCH_QUERY_KEY }}
           apiVersion: "2019-05-06"
-
       - run: npx now --prod --confirm --token ${{ secrets.VERCEL_TOKEN }}
