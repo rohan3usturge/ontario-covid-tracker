@@ -1,6 +1,6 @@
 <script>
   import Tile from "./tile.svelte";
-  import BarChart from "./bar-chart.svelte";
+  import Chart from "./chart.svelte";
   import { onMount } from "svelte";
   import { getFacets } from "../services/search.service";
   import { displayName, getOutcomeName } from "../config";
@@ -80,6 +80,12 @@
           lv.value.startsWith("<") ? -1 : 0
         );
       }
+      facet.value = facet.value.filter(
+        lv =>
+          lv.value &&
+          !lv.value.toLowerCase().includes("unknown") &&
+          !lv.value.toLowerCase().includes("blank")
+      );
     }
     setCities(facetArray);
     setOutcomes(facetArray);
@@ -157,7 +163,7 @@
   <div class="mt-4" />
   <div class="row">
     {#each outcomeCounts as { name, count, textStyle }}
-      <div class="col-sm-6 col-md-4 col-lg-2">
+      <div class="col-sm-6 col-md-4 col-lg-2 mt-1">
         <Tile {name} {count} {textStyle} />
       </div>
     {/each}
@@ -166,7 +172,7 @@
   <div class="row">
     {#each facetArray as { name, value }}
       <div class="col-sm col-md col-lg-4 mt-4">
-        <BarChart id={name} name={displayName(name)} {value} />
+        <Chart id={name} name={displayName(name)} {value} />
       </div>
     {/each}
   </div>

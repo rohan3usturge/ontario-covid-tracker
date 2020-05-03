@@ -11,9 +11,8 @@
       theme: "fusion",
       showLegend: "1",
       showPercentValues: "1",
-      legendPosition: "bottom",
       useDataPlotColorForLabels: "1",
-      enablemultislicing: "0"
+      enablemultislicing: "1"
     },
     data: value.map(v => ({
       label: formatValue(id, v.value),
@@ -24,7 +23,7 @@
   const chartConfigs = value => ({
     id: name,
     type: getChartType(id),
-    width: 300,
+    width: 310,
     height: 300,
     dataFormat: "json",
     dataSource: dataSource(value)

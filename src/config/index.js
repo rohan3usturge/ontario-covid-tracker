@@ -43,6 +43,9 @@ export const getChartType = (id) => {
   switch (id) {
     case "Accurate_Episode_Date":
       return "line";
+    case "Outcome1":
+    case "Client_Gender":
+      return "pie2d";
     default:
       return "column2d";
   }
