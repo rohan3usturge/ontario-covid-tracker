@@ -9,12 +9,6 @@ import replace from "@rollup/plugin-replace";
 const production = !process.env.ROLLUP_WATCH;
 
 const { serviceName, indexName, apiKey, apiVersion } = process.env;
-console.log({
-  serviceName,
-  indexName,
-  apiKey,
-  apiVersion,
-});
 
 export default {
   input: "src/main.js",
@@ -28,10 +22,10 @@ export default {
     replace({
       covidTrackerConfig: JSON.stringify({
         isProd: production,
-        serviceName: process.env.serviceName,
-        indexName: process.env.indexName,
-        apiKey: process.env.apiKey,
-        apiVersion: process.env.apiVersion,
+        serviceName,
+        indexName,
+        apiKey,
+        apiVersion,
         ...config().parsed,
       }),
     }),
@@ -64,7 +58,7 @@ export default {
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
-    //production && terser(),
+    production && terser(),
   ],
   watch: {
     clearScreen: false,
