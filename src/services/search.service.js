@@ -1,11 +1,13 @@
 import axios from "axios";
 import { dates } from "./date.service";
+import jsonp from "jsonp";
 
 const serviceName = covidTrackerConfig.serviceName;
 const indexName = covidTrackerConfig.indexName;
 const apiKey = covidTrackerConfig.apiKey;
 const apiVersion = covidTrackerConfig.apiVersion;
 
+const dateWiseDataUrl = `https://data.ontario.ca/api/3/action/datastore_search`;
 const searchBaseUrl = `https://${serviceName}.search.windows.net/indexes/${indexName}/docs/search`;
 
 export const getFacets = async ({ facets = [], filters = {} }) => {
@@ -60,4 +62,44 @@ export const getFacets = async ({ facets = [], filters = {} }) => {
   }
 
   return facetArray;
+};
+
+export const getDailyData = async () => {
+  const params = {
+    resource_id: "ed270bb8-340b-41f9-a7c6-e8ef587e6d11",
+    limit: 500,
+  };
+  return new Promise((resolve, reject) => {
+    const callback = (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        const mappedData = data.result.records.map((r) => ({
+          confirmedNegative: r["Confirmed Negative"],
+          confirmedPositive: r["Confirmed Positive"],
+          deaths: r["Deaths"],
+          hospitalized: r["Number of patients hospitalized with COVID-19"],
+          icuWithVentilator:
+            r["Number of patients in ICU on a ventilator with COVID-19"],
+          icu: r["Number of patients in ICU with COVID-19"],
+          presumptiveNegative: r["Presumptive Negative"],
+          presumptivePostive: r["Presumptive Positive"],
+          reportedDate: r["Reported Date"],
+          resolved: r["Resolved"],
+          totalCases: r["Total Cases"],
+          approvedForTesting:
+            r["Total patients approved for testing as of Reporting Date"],
+          lastDayTests: r["Total tests completed in the last day"],
+          underInvestigation: r["Under Investigation"],
+          id: r["_id"],
+        }));
+        resolve(mappedData);
+      }
+    };
+    jsonp(
+      `${dateWiseDataUrl}?resource_id=${params.resource_id}&limit=${params.limit}`,
+      null,
+      callback
+    );
+  });
 };

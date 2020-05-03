@@ -1,8 +1,10 @@
 <script>
   import Tile from "./tile.svelte";
   import Chart from "./chart.svelte";
+  import TodayTile from "./today-tile.svelte";
   import { onMount } from "svelte";
-  import { getFacets } from "../services/search.service";
+  import moment from "moment";
+  import { getFacets, getDailyData } from "../services/search.service";
   import { displayName, getOutcomeName } from "../config";
 
   // Constants
@@ -17,6 +19,8 @@
   // State
   let facetArray = [];
   let outcomeCounts = [];
+  let todaysData;
+  let dailyData = [];
   let cities;
   let selectedCity = "All";
   const searchPayload = {
@@ -91,6 +95,20 @@
     setOutcomes(facetArray);
   };
 
+  const searchAndSetDailyData = async () => {
+    dailyData = await getDailyData();
+    const today = moment().startOf("day");
+    todaysData = dailyData.find(d => {
+      const reportingDateStr = d.reportedDate;
+      const reportingDate = moment(reportingDateStr);
+      return (
+        today.isSame(reportingDate, "day") &&
+        today.isSame(reportingDate, "month") &&
+        today.isSame(reportingDate, "year")
+      );
+    });
+  };
+
   // event handlers
   const handleDataRangeClick = async dateRange => {
     searchPayload.filters.Accurate_Episode_Date = dateRange;
@@ -105,38 +123,38 @@
   // lifecycle methods
   onMount(async () => {
     await searchAndSetFacets();
+    await searchAndSetDailyData();
   });
 </script>
 
-<svelte:head>
-  <link rel="stylesheet" href="tutorial/dark-theme.css" />
-</svelte:head>
-
 <div>
-  <div class="mt-4" />
+  <div class="mt-2" />
+  {#if todaysData}
+    <TodayTile {todaysData} />
+  {/if}
+  <div class="mt-2" />
   <div class="card">
     <div class="card-body">
       <h6>
-        Showing data for Ontario
-        <small class="text-muted">for following filters</small>
+        <small class="text-muted">Showing data for following filters</small>
       </h6>
       <div class="mt-2" />
       <div class="btn-group fluid" role="group" aria-label="Basic example">
         <button
           type="button"
-          class="btn btn-primary {searchPayload.filters.Accurate_Episode_Date === 'overall' ? 'active' : ''}"
+          class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'overall' ? 'active' : ''}"
           on:click={() => handleDataRangeClick('lastYear')}>
           Till today
         </button>
         <button
           type="button"
-          class="btn btn-primary {searchPayload.filters.Accurate_Episode_Date === 'lastWeek' ? 'active' : ''}"
+          class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'lastWeek' ? 'active' : ''}"
           on:click={() => handleDataRangeClick('lastWeek')}>
           Last 7 days
         </button>
         <button
           type="button"
-          class="btn btn-primary {searchPayload.filters.Accurate_Episode_Date === 'lastMonth' ? 'active' : ''}"
+          class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'lastMonth' ? 'active' : ''}"
           on:click={() => handleDataRangeClick('lastMonth')}>
           Last 1 month
         </button>

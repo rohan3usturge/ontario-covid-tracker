@@ -45,9 +45,6 @@
       </ul>
     </div>
   </nav>
-  <div class="alert alert-primary mt-1" role="alert">
-    Website Currenly shows only ONTARIO Provice data. More is coming soon.
-  </div>
   <div>
     <Route path="datasource" component={DataSource} />
     <Route path="search" component={Search} />
