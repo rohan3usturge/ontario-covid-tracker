@@ -14,10 +14,10 @@ jobs:
       - name: Start Indexer
         run: npm run indexer
         env:
-          dataApiBaseUrl:  "https://data.ontario.ca/api/3/action/datastore_search";
-          resourceId:  "455fd63b-603d-4608-8216-7d8647f43350";
-          limit:  30000;
-          serviceName:  "covid-search";
-          indexName:  "ca-ontario-index";
-          apiKey:  ${{ secrets.API_KEY }};
-          apiVersion:  "2019-05-06";
+          dataApiBaseUrl: "https://data.ontario.ca/api/3/action/datastore_search"
+          resourceId: "455fd63b-603d-4608-8216-7d8647f43350"
+          limit: 30000
+          serviceName: "covid-search"
+          indexName: "ca-ontario-index"
+          apiKey: ${{ secrets.API_KEY }}
+          apiVersion: "2019-05-06"

@@ -12,5 +12,12 @@ jobs:
         with:
           node-version: 10
       - run: npm ci
-      - run: npm run build
+      - name: npm run build
+        run: npm run build
+        env:
+          serviceName: "covid-search"
+          indexName: "ca-ontario-index"
+          apiKey: ${{ secrets.SEARCH_QUERY_KEY }}
+          apiVersion: "2019-05-06"
+
       - run: npx now --prod --confirm --token ${{ secrets.VERCEL_TOKEN }}
