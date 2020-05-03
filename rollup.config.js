@@ -10,6 +10,8 @@ const production = !process.env.ROLLUP_WATCH;
 
 const { serviceName, indexName, apiKey, apiVersion } = process.env;
 
+console.log({ serviceName, indexName, apiKey, apiVersion });
+
 const dotenvConfig = production ? {} : config().parsed;
 
 export default {
@@ -23,10 +25,10 @@ export default {
   plugins: [
     replace({
       covidTrackerConfig: JSON.stringify({
-        serviceName,
-        indexName,
-        apiKey,
-        apiVersion,
+        serviceName: serviceName,
+        indexName: indexName,
+        apiKey: apiKey,
+        apiVersion: apiVersion,
         ...dotenvConfig,
       }),
     }),
