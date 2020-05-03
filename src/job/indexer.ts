@@ -14,7 +14,7 @@ declare const console: any;
 
 console.logCopy = console.log.bind(console);
 
-console.info = function (data) {
+console.info = function (data: any) {
   var currentDate = "[" + new Date().toUTCString() + "] ";
   this.logCopy(white(currentDate), data ?? "");
 };
@@ -41,6 +41,10 @@ const getOntarioData = async (): Promise<OnDataApiRecord[]> => {
     console.info(green(`resourceId = ${resourceId}`));
     console.info();
     console.info();
+
+    if (!dataApiBaseUrl) {
+      throw new Error();
+    }
 
     const response = await axios.get<OnDataApiResponse>(dataApiBaseUrl, {
       params: {

@@ -1,35 +1,32 @@
 <script>
-  import { onMount } from "svelte";
-  import * as d3 from "d3";
-  var data = [30, 86, 168, 281, 303, 365];
+  import SvelteFC from "svelte-fusioncharts";
+  export let name;
+  export let value;
+  const dataSource = value => ({
+    chart: {
+      xAxisName: `${name}`,
+      yAxisName: "Count",
+      theme: "fusion"
+    },
+    data: value.map(v => ({
+      label: v.value,
+      value: v.count
+    }))
+  });
 
-  let el;
-
-  onMount(() => {
-    d3.select(el)
-      .selectAll("div")
-      .data(data)
-      .enter()
-      .append("div")
-      .classed("chart", true)
-      .style("height", function(d) {
-        return d + "px";
-      })
-      .style("width", "50px")
-      .text(function(d) {
-        return d;
-      });
+  const chartConfigs = value => ({
+    id: name,
+    type: "column2d",
+    width: 300,
+    height: 300,
+    dataFormat: "json",
+    dataSource: dataSource(value)
   });
 </script>
 
-<style>
-  .chart-container {
-    flex-direction: row;
-    display: flex;
-    align-items: flex-end;
-  }
-</style>
-
 <div class="card">
-  <div bind:this={el} class="chart-container" />
+  <div class="card-body">
+    <div class="card-title">{name}</div>
+    <SvelteFC {...chartConfigs(value)} />
+  </div>
 </div>

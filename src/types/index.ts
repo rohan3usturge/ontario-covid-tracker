@@ -34,7 +34,7 @@ export type OnSearchApiRecord = {
   Reporting_PHU_City: string;
   Reporting_PHU_Postal_Code: string;
   Reporting_PHU_Website: string;
-  Reporting_PHU_Cordinates: string;
+  Reporting_PHU_Cordinates: string | null;
 };
 
 export interface DocumentRequest extends OnSearchApiRecord {
