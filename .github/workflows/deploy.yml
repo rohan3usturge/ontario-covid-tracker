@@ -14,7 +14,7 @@ jobs:
       - run: npm ci
       - run: npm run clean
       - name: npm run build
-        run: npm run build
+        run: serviceName=covid-search npm run build
         env:
           serviceName: "covid-search"
           indexName: "ca-ontario-index"
