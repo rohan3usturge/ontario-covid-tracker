@@ -3,13 +3,15 @@
   import BarChart from "./bar-chart.svelte";
   import { onMount } from "svelte";
   import { getFacets } from "../services/search.service";
+  import { displayName } from "../config";
 
   // Constants
   const facets = [
     "Age_Group",
     "Client_Gender",
     "Reporting_PHU_City",
-    "Outcome1"
+    "Outcome1",
+    "Accurate_Episode_Date,interval:day"
   ];
 
   // State
@@ -112,6 +114,10 @@
   });
 </script>
 
+<svelte:head>
+  <link rel="stylesheet" href="tutorial/dark-theme.css" />
+</svelte:head>
+
 <div>
   <div class="mt-4" />
   <div class="card">
@@ -172,7 +178,7 @@
   <div class="row">
     {#each facetArray as { name, value }}
       <div class="col-sm col-md col-lg-4 mt-4">
-        <BarChart {name} {value} />
+        <BarChart name={displayName(name)} {value} />
       </div>
     {/each}
   </div>

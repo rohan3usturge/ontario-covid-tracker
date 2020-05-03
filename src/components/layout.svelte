@@ -9,7 +9,7 @@
 
 <Router {url}>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand mb-0 h1" href="/" use:link>Covid19 Info</a>
+    <a class="navbar-brand mb-0 h1" href="/" use:link>Ontario Covid19 Info</a>
     <button
       class="navbar-toggler"
       type="button"
