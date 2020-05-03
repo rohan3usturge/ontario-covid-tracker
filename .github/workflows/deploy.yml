@@ -13,9 +13,4 @@ jobs:
           node-version: 12.16.2
       - run: npm ci
       - name: deploy via now
-        run: npx now --prod --confirm --token ${{ secrets.VERCEL_TOKEN }}
-        env:
-          serviceName: "covid-search"
-          indexName: "ca-ontario-index"
-          apiKey: ${{ secrets.SEARCH_QUERY_KEY }}
-          apiVersion: "2019-05-06"
+        run: npx now --build-env [serviceName=covid-search indexName=ca-ontario-index apiKey=${{ secrets.SEARCH_QUERY_KEY }} apiVersion=2019-05-06] --prod --confirm --token ${{ secrets.VERCEL_TOKEN }}
