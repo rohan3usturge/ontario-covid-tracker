@@ -1,4 +1,4 @@
-name: run-search-indexer
+name: run-search-indexer-v2
 on:
   schedule:
     - cron: "* * * * *"
