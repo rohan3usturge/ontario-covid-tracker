@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 12.16.2
       - run: npm ci
       - name: Start Indexer
         run: npm run indexer

@@ -10,14 +10,12 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 12.16.2
       - run: npm ci
-      - run: npm run clean
-      - name: npm run build
-        run: serviceName=covid-search npm run build
+      - name: deploy via now
+        run: npx now --prod --confirm --token ${{ secrets.VERCEL_TOKEN }}
         env:
           serviceName: "covid-search"
           indexName: "ca-ontario-index"
           apiKey: ${{ secrets.SEARCH_QUERY_KEY }}
           apiVersion: "2019-05-06"
-      - run: npx now --prod --confirm --token ${{ secrets.VERCEL_TOKEN }}
