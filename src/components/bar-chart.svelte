@@ -1,5 +1,7 @@
 <script>
   import SvelteFC from "svelte-fusioncharts";
+  import { formatValue, getChartType } from "../config";
+  export let id;
   export let name;
   export let value;
   const dataSource = value => ({
@@ -14,14 +16,14 @@
       enablemultislicing: "0"
     },
     data: value.map(v => ({
-      label: v.value,
+      label: formatValue(id, v.value),
       value: v.count
     }))
   });
 
   const chartConfigs = value => ({
     id: name,
-    type: "column2d",
+    type: getChartType(id),
     width: 300,
     height: 300,
     dataFormat: "json",

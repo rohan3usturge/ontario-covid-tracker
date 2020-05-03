@@ -3,7 +3,7 @@
   import BarChart from "./bar-chart.svelte";
   import { onMount } from "svelte";
   import { getFacets } from "../services/search.service";
-  import { displayName } from "../config";
+  import { displayName, getOutcomeName } from "../config";
 
   // Constants
   const facets = [
@@ -46,24 +46,6 @@
     return textStyle;
   };
 
-  const getName = value => {
-    let name;
-    switch (value.toLowerCase()) {
-      case "fatal":
-        name = "Deaths";
-        break;
-      case "resolved":
-        name = "Recovered";
-        break;
-      case "not resolved":
-        name = "Active";
-        break;
-      default:
-        name = "primary";
-    }
-    return name;
-  };
-
   // functions
   const setCities = facetArray => {
     if (!cities) {
@@ -74,7 +56,7 @@
   const setOutcomes = facetArray => {
     const outcomeFacet = facetArray.find(f => f.name === "Outcome1");
     const outcomes = outcomeFacet.value.map(fv => ({
-      name: getName(fv.value),
+      name: getOutcomeName(fv.value),
       count: fv.count,
       textStyle: getTextStyle(fv.value)
     }));
@@ -184,7 +166,7 @@
   <div class="row">
     {#each facetArray as { name, value }}
       <div class="col-sm col-md col-lg-4 mt-4">
-        <BarChart name={displayName(name)} {value} />
+        <BarChart id={name} name={displayName(name)} {value} />
       </div>
     {/each}
   </div>
