@@ -33,14 +33,20 @@
 
   const searchAndSetDailyData = async () => {
     dailyData = await getDailyData();
-    const today = moment().startOf("day");
+    const today = moment()
+      .utc()
+      .startOf("day");
     todaysData = getDataForDay(dailyData, today);
+    let dayMinus = -1;
+    if (!todaysData) {
+      todaysData = getDataForDay(dailyData, today.add(-1, "day"));
+      dayMinus = -2;
+    }
     const yesterday = moment()
-      .add(-1, "day")
+      .utc()
+      .add(dayMinus, "day")
       .startOf("day");
     yesterdaysData = getDataForDay(dailyData, yesterday);
-
-    console.log({ todaysData, yesterdaysData });
 
     const totalCasesTrendData = dailyData.map(d => ({
       value: d.reportedDate,
@@ -131,6 +137,11 @@
 </script>
 
 <div>
+
+  <div class="mt-2" />
+  <div class="alert alert-primary" role="alert">
+    Data refreshes everyday around 10.30 EST.
+  </div>
 
   {#if todaysData && yesterdaysData}
     <div class="mt-2" />
