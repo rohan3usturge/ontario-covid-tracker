@@ -25,7 +25,7 @@
   const searchPayload = {
     facets,
     filters: {
-      Accurate_Episode_Date: "overall",
+      Accurate_Episode_Date: "lastYear",
       Reporting_PHU_City: undefined
     }
   };
@@ -129,7 +129,7 @@
           aria-label="Select Data range">
           <button
             type="button"
-            class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'overall' ? 'active' : ''}"
+            class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'lastYear' ? 'active' : ''}"
             on:click={() => handleDataRangeClick('lastYear')}>
             Till today
           </button>

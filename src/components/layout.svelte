@@ -40,7 +40,7 @@
         <li
           class="nav-item {url === '/about' ? 'active' : ''}"
           on:click={() => (url = '/about')}>
-          <a class="nav-link" href="/about" use:link>About Us</a>
+          <a class="nav-link" href="/about" use:link>Contact and feedback</a>
         </li>
         <li
           class="nav-item {url === '/datasource' ? 'active' : ''}"

@@ -7,4 +7,15 @@
       intention to make any commercial gains.
     </p>
   </div>
+
+  <iframe
+    title="Feedback Iframe"
+    src="https://docs.google.com/forms/d/e/1FAIpQLSfxBSzE18yjO5iJ-xBT6cHsj3iib4BfeWoClsmsTpY_r6ZL4w/viewform?embedded=true"
+    width="400"
+    height="1150"
+    frameborder="0"
+    marginheight="0"
+    marginwidth="0">
+    Loading…
+  </iframe>
 </div>
