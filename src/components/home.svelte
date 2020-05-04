@@ -1,4 +1,8 @@
 <script>
+  gtag("event", "screen_view", {
+    app_name: "Covid-Info",
+    screen_name: "Home"
+  });
   import TodayTile from "./today-tile.svelte";
   import NewCase from "./new-cases.svelte";
   import Chart from "./chart.svelte";

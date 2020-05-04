@@ -1,3 +1,10 @@
+<script>
+  gtag("event", "screen_view", {
+    app_name: "Covid-Info",
+    screen_name: "Datasource"
+  });
+</script>
+
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-4">Ontario.ca</h1>

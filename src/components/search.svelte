@@ -1,4 +1,8 @@
 <script>
+  gtag("event", "screen_view", {
+    app_name: "Covid-Info",
+    screen_name: "Search"
+  });
   import NumberDetail from "./number-detail.svelte";
   import Chart from "./chart.svelte";
   import { onMount } from "svelte";
