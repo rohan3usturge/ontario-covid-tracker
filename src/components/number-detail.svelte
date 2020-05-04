@@ -9,6 +9,6 @@
 </script>
 
 <h5 class="text={textStyle}">
-  {numberWithCommas(count)}
+  {count}
   <small>{`   ${name}`}</small>
 </h5>
