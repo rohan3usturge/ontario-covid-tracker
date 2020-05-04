@@ -35,6 +35,9 @@
           count={todaysData.confirmedPositive} />
       </div>
       <div class="col-sm">
+        <NumberTile name="recovered" count={todaysData.resolved} />
+      </div>
+      <div class="col-sm">
         <NumberTile
           name="hospitalized patients"
           count={todaysData.hospitalized} />

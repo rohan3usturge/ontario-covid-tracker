@@ -7,5 +7,5 @@
 
 <h5 class="text={textStyle}">
   {HRN.toHumanString(count)}
-  <small>{name}</small>
+  <small>{`   ${name}`}</small>
 </h5>
