@@ -194,7 +194,7 @@
       {#if facetArray}
         <div class="row">
           {#each facetArray as { name, value }}
-            <div class="col-sm col-md-6 col-lg-6 mt-2 p-0">
+            <div class="col-sm m-1 p-0">
               <Chart id={name} name={displayName(name)} {value} />
             </div>
           {/each}
