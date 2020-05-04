@@ -6,6 +6,7 @@
   export let value;
   const dataSource = value => ({
     chart: {
+      caption: name,
       xAxisName: `${name}`,
       yAxisName: "Count",
       theme: "fusion",
@@ -23,7 +24,7 @@
   const chartConfigs = value => ({
     id: name,
     type: getChartType(id),
-    width: 310,
+    width: 320,
     height: 300,
     dataFormat: "json",
     dataSource: dataSource(value)
@@ -32,7 +33,6 @@
 
 <div class="card">
   <div class="card-body">
-    <div class="card-title">{name}</div>
     <SvelteFC {...chartConfigs(value)} />
   </div>
 </div>

@@ -1,5 +1,5 @@
 <script>
-  import Tile from "./tile.svelte";
+  import NumberDetail from "./number-detail.svelte";
   import Chart from "./chart.svelte";
   import TodayTile from "./today-tile.svelte";
   import { onMount } from "svelte";
@@ -133,65 +133,73 @@
     <TodayTile {todaysData} />
   {/if}
   <div class="mt-2" />
+
   <div class="card">
     <div class="card-body">
       <h6>
-        <small class="text-muted">Showing data for following filters</small>
+        <small class="text-muted">
+          Apply Filters below using date and city
+        </small>
       </h6>
       <div class="mt-2" />
-      <div class="btn-group fluid" role="group" aria-label="Basic example">
-        <button
-          type="button"
-          class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'overall' ? 'active' : ''}"
-          on:click={() => handleDataRangeClick('lastYear')}>
-          Till today
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'lastWeek' ? 'active' : ''}"
-          on:click={() => handleDataRangeClick('lastWeek')}>
-          Last 7 days
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'lastMonth' ? 'active' : ''}"
-          on:click={() => handleDataRangeClick('lastMonth')}>
-          Last 1 month
-        </button>
+      <div class="row">
+        <div
+          class="btn-group col-md-6"
+          role="group"
+          aria-label="Select Data range">
+          <button
+            type="button"
+            class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'overall' ? 'active' : ''}"
+            on:click={() => handleDataRangeClick('lastYear')}>
+            Till today
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'lastWeek' ? 'active' : ''}"
+            on:click={() => handleDataRangeClick('lastWeek')}>
+            Last 7 days
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'lastMonth' ? 'active' : ''}"
+            on:click={() => handleDataRangeClick('lastMonth')}>
+            Last 1 month
+          </button>
+        </div>
+        {#if cities}
+          <div class="col-md-6 mt-1">
+            <select
+              bind:value={selectedCity}
+              class="form-control"
+              id="select-city"
+              on:change={handleCityChange}>
+              <option value="All">Select a city. e.g. Toronto</option>
+              {#each cities as { value }}
+                <option {value}>{value}</option>
+              {/each}
+            </select>
+          </div>
+        {/if}
       </div>
-      {#if cities}
-        <div style="margin-top: 25px;" />
-        <div class="form-group">
-          <label for="select-city">City</label>
-          <select
-            bind:value={selectedCity}
-            class="form-control"
-            id="select-city"
-            on:change={handleCityChange}>
-            <option value="All">All</option>
-            {#each cities as { value }}
-              <option {value}>{value}</option>
-            {/each}
-          </select>
+      {#if outcomeCounts}
+        <div class="mt-4" />
+        <div class="row">
+          {#each outcomeCounts as { name, count, textStyle }}
+            <div class="col-sm-6">
+              <NumberDetail {name} {count} {textStyle} />
+            </div>
+          {/each}
+        </div>
+      {/if}
+      {#if facetArray}
+        <div class="row">
+          {#each facetArray as { name, value }}
+            <div class="col-sm col-md-6 col-lg-6 mt-2 p-0">
+              <Chart id={name} name={displayName(name)} {value} />
+            </div>
+          {/each}
         </div>
       {/if}
     </div>
-  </div>
-
-  <div class="mt-4" />
-  <div class="row">
-    {#each outcomeCounts as { name, count, textStyle }}
-      <div class="col-sm-6 col-md-4 col-lg-2 mt-1">
-        <Tile {name} {count} {textStyle} />
-      </div>
-    {/each}
-  </div>
-  <div class="mt-4" />
-  <div class="row">
-    {#each facetArray as { name, value }}
-      <div class="col-sm col-md col-lg-4 mt-4">
-        <Chart id={name} name={displayName(name)} {value} />
-      </div>
-    {/each}
   </div>
 </div>
