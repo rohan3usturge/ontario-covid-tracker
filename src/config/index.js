@@ -1,20 +1,31 @@
 import moment from "moment";
 
 const displayNameConfig = [
+  { id: "Accurate_Episode_Date", displayName: "Episode Date" },
   { id: "Age_Group", displayName: "Age Group" },
   { id: "Client_Gender", displayName: "Gender" },
   { id: "Reporting_PHU_City", displayName: "City" },
   { id: "Outcome1", displayName: "Outcome" },
-  { id: "Accurate_Episode_Date", displayName: "Daily Cases" },
+  { id: "icuCasesTrendData", displayName: "ICU Cases" },
+  { id: "icuCasesWithVentilatorTrendData", displayName: "Ventilator Cases" },
+  { id: "hospitalizedCasesTrendData", displayName: "Hospitalized Cases" },
+  { id: "totalCasesTrendData", displayName: "Total Cases" },
+  { id: "testingTrendData", displayName: "Testing" },
+  { id: "deathTrendData", displayName: "Deaths" },
+  { id: "activeCaseTrendData", displayName: "Active Cases" },
+  { id: "recoveredCasesTrendData", displayName: "Recovered Cases" },
 ];
 
 export const displayName = (id) => {
   const config = displayNameConfig.find((d) => d.id === id);
-  return config && config.displayName;
+  if (!config) {
+    return id;
+  }
+  return config.displayName;
 };
 
 export const formatValue = (id, value) => {
-  if (id === "Accurate_Episode_Date") {
+  if (id === "Accurate_Episode_Date" || id.includes("TrendData")) {
     return moment(value).format("DD-MMM-YYYY");
   }
   if (id === "Outcome1") {
@@ -40,6 +51,10 @@ export const getOutcomeName = (value) => {
 };
 
 export const getChartType = (id) => {
+  if (id.includes("TrendData")) {
+    return "line";
+  }
+
   switch (id) {
     case "Accurate_Episode_Date":
       return "line";

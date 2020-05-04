@@ -3,13 +3,14 @@
   import HRN from "human-readable-numbers";
   import moment from "moment";
   import NumberTile from "./number-detail.svelte";
+  import { link } from "svelte-routing";
 </script>
 
-<div class="card border-primary">
+<div class="card text-white bg-primary">
   <div class="card-body">
     <div class="card-title">
       <h5>In Ontario</h5>
-      <h6 class="text-muted">
+      <h6>
         <small>As of</small>
         <em>today ({moment().format('dddd, MMMM Do YYYY')})</em>
       </h6>
@@ -47,5 +48,9 @@
           count={todaysData.icuWithVentilator} />
       </div>
     </div>
+    <div class="mt-5" />
+    <a href="/search" use:link class="btn text-white border-white">
+      Citwise Search
+    </a>
   </div>
 </div>

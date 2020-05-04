@@ -1,205 +1,185 @@
 <script>
-  import NumberDetail from "./number-detail.svelte";
-  import Chart from "./chart.svelte";
   import TodayTile from "./today-tile.svelte";
+  import NewCase from "./new-cases.svelte";
+  import Chart from "./chart.svelte";
   import { onMount } from "svelte";
   import moment from "moment";
-  import { getFacets, getDailyData } from "../services/search.service";
-  import { displayName, getOutcomeName } from "../config";
-
-  // Constants
-  const facets = [
-    "Age_Group,sort:value",
-    "Client_Gender",
-    "Reporting_PHU_City",
-    "Outcome1",
-    "Accurate_Episode_Date,interval:day"
-  ];
+  import { getDailyData } from "../services/search.service";
+  import { displayName } from "../config";
 
   // State
-  let facetArray = [];
-  let outcomeCounts = [];
   let todaysData;
   let dailyData = [];
-  let cities;
-  let selectedCity = "All";
-  const searchPayload = {
-    facets,
-    filters: {
-      Accurate_Episode_Date: "overall",
-      Reporting_PHU_City: undefined
-    }
-  };
-
-  // util functions
-  const getTextStyle = value => {
-    let textStyle;
-    switch (value.toLowerCase()) {
-      case "fatal":
-        textStyle = "danger";
-        break;
-      case "resolved":
-        textStyle = "success";
-        break;
-      case "not resolved":
-        textStyle = "warning";
-        break;
-      default:
-        textStyle = "primary";
-    }
-    return textStyle;
-  };
+  let trends = [];
+  let yesterdaysData;
 
   // functions
-  const setCities = facetArray => {
-    if (!cities) {
-      cities = facetArray.find(f => f.name === "Reporting_PHU_City").value;
-    }
-  };
 
-  const setOutcomes = facetArray => {
-    const outcomeFacet = facetArray.find(f => f.name === "Outcome1");
-    const outcomes = outcomeFacet.value.map(fv => ({
-      name: getOutcomeName(fv.value),
-      count: fv.count,
-      textStyle: getTextStyle(fv.value)
-    }));
-
-    const total = outcomes.reduce((total, current) => total + current.count, 0);
-    outcomeCounts = [
-      {
-        name: "Total",
-        count: total,
-        textStyle: "primary"
-      },
-      ...outcomes
-    ];
-  };
-
-  const searchAndSetFacets = async () => {
-    facetArray = await getFacets(searchPayload);
-    for (const facet of facetArray) {
-      if (facet.name === "Age_Group") {
-        facet.value = facet.value.sort(lv =>
-          lv.value.startsWith("<") ? -1 : 0
-        );
-      }
-      facet.value = facet.value.filter(
-        lv =>
-          lv.value &&
-          !lv.value.toLowerCase().includes("unknown") &&
-          !lv.value.toLowerCase().includes("blank")
+  const getDataForDay = (dailyD, day) => {
+    return dailyD.find(d => {
+      const reportingDateStr = d.reportedDate;
+      const reportingDate = moment(reportingDateStr);
+      return (
+        day.isSame(reportingDate, "day") &&
+        day.isSame(reportingDate, "month") &&
+        day.isSame(reportingDate, "year")
       );
-    }
-    setCities(facetArray);
-    setOutcomes(facetArray);
+    });
   };
 
   const searchAndSetDailyData = async () => {
     dailyData = await getDailyData();
     const today = moment().startOf("day");
-    todaysData = dailyData.find(d => {
-      const reportingDateStr = d.reportedDate;
-      const reportingDate = moment(reportingDateStr);
-      return (
-        today.isSame(reportingDate, "day") &&
-        today.isSame(reportingDate, "month") &&
-        today.isSame(reportingDate, "year")
-      );
+    todaysData = getDataForDay(dailyData, today);
+    const yesterday = moment()
+      .add(-1, "day")
+      .startOf("day");
+    yesterdaysData = getDataForDay(dailyData, yesterday);
+
+    console.log({ todaysData, yesterdaysData });
+
+    const totalCasesTrendData = dailyData.map(d => ({
+      value: d.reportedDate,
+      count: d.totalCases || 0
+    }));
+
+    const activeCaseTrendData = dailyData.map(d => ({
+      value: d.reportedDate,
+      count: d.confirmedPositive || 0
+    }));
+
+    const testingTrendData = dailyData.map(d => ({
+      value: d.reportedDate,
+      count: d.approvedForTesting || 0
+    }));
+
+    const deathTrendData = dailyData.map(d => ({
+      value: d.reportedDate,
+      count: d.deaths || 0
+    }));
+
+    const hospitalizedCasesTrendData = dailyData.map(d => ({
+      value: d.reportedDate,
+      count: d.hospitalized || 0
+    }));
+    const icuCasesTrendData = dailyData.map(d => ({
+      value: d.reportedDate,
+      count: d.icu || 0
+    }));
+
+    const icuCasesWithVentilatorTrendData = dailyData.map(d => ({
+      value: d.reportedDate,
+      count: d.icuWithVentilator || 0
+    }));
+
+    const recoveredCasesTrendData = dailyData.map(d => ({
+      value: d.reportedDate,
+      count: d.resolved || 0
+    }));
+
+    trends = [];
+
+    trends.push({
+      name: "totalCasesTrendData",
+      value: totalCasesTrendData
     });
-  };
 
-  // event handlers
-  const handleDataRangeClick = async dateRange => {
-    searchPayload.filters.Accurate_Episode_Date = dateRange;
-    await searchAndSetFacets();
-  };
+    trends.push({
+      name: "deathTrendData",
+      value: deathTrendData
+    });
 
-  const handleCityChange = async () => {
-    searchPayload.filters.Reporting_PHU_City = selectedCity;
-    await searchAndSetFacets();
+    trends.push({
+      name: "activeCaseTrendData",
+      value: activeCaseTrendData
+    });
+
+    trends.push({
+      name: "recoveredCasesTrendData",
+      value: recoveredCasesTrendData
+    });
+
+    trends.push({
+      name: "hospitalizedCasesTrendData",
+      value: hospitalizedCasesTrendData
+    });
+
+    trends.push({
+      name: "icuCasesTrendData",
+      value: icuCasesTrendData
+    });
+
+    trends.push({
+      name: "icuCasesWithVentilatorTrendData",
+      value: icuCasesWithVentilatorTrendData
+    });
+
+    trends.push({
+      name: "testingTrendData",
+      value: testingTrendData
+    });
   };
 
   // lifecycle methods
   onMount(async () => {
-    await searchAndSetFacets();
     await searchAndSetDailyData();
   });
 </script>
 
 <div>
+
+  {#if todaysData && yesterdaysData}
+    <div class="mt-2" />
+    <div class="card border-primary">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <NewCase
+              count={todaysData.totalCases - yesterdaysData.totalCases}
+              title="New Cases" />
+          </div>
+          <div class="col-sm-4">
+            <NewCase
+              count={todaysData.deaths - yesterdaysData.deaths}
+              title="New Deaths"
+              badgeStyle="danger" />
+          </div>
+          <div class="col-sm-4">
+            <NewCase
+              count={todaysData.resolved - yesterdaysData.resolved}
+              title="New Recoveries"
+              badgeStyle="success" />
+          </div>
+        </div>
+      </div>
+    </div>
+  {/if}
+
   <div class="mt-2" />
   {#if todaysData}
     <TodayTile {todaysData} />
   {/if}
-  <div class="mt-2" />
 
-  <div class="card">
-    <div class="card-body">
-      <h6>
-        <small class="text-muted">
-          Apply Filters below using date and city
-        </small>
-      </h6>
-      <div class="mt-2" />
-      <div class="row">
-        <div
-          class="btn-group col-md-6"
-          role="group"
-          aria-label="Select Data range">
-          <button
-            type="button"
-            class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'overall' ? 'active' : ''}"
-            on:click={() => handleDataRangeClick('lastYear')}>
-            Till today
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'lastWeek' ? 'active' : ''}"
-            on:click={() => handleDataRangeClick('lastWeek')}>
-            Last 7 days
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-primary {searchPayload.filters.Accurate_Episode_Date === 'lastMonth' ? 'active' : ''}"
-            on:click={() => handleDataRangeClick('lastMonth')}>
-            Last 1 month
-          </button>
+  {#if trends}
+    <div class="mt-2" />
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">
+          <h5>Daily Trends</h5>
+          <h6 class="text-muted">
+            <small>As of</small>
+            <em>today ({moment().format('dddd, MMMM Do YYYY')})</em>
+          </h6>
         </div>
-        {#if cities}
-          <div class="col-md-6 mt-1">
-            <select
-              bind:value={selectedCity}
-              class="form-control"
-              id="select-city"
-              on:change={handleCityChange}>
-              <option value="All">Select a city. e.g. Toronto</option>
-              {#each cities as { value }}
-                <option {value}>{value}</option>
-              {/each}
-            </select>
-          </div>
-        {/if}
-      </div>
-      {#if outcomeCounts}
-        <div class="mt-4" />
         <div class="row">
-          {#each outcomeCounts as { name, count, textStyle }}
-            <div class="col-sm-6">
-              <NumberDetail {name} {count} {textStyle} />
-            </div>
-          {/each}
-        </div>
-      {/if}
-      {#if facetArray}
-        <div class="row">
-          {#each facetArray as { name, value }}
+          {#each trends as { name, value }}
             <div class="col-sm m-1 p-0">
               <Chart id={name} name={displayName(name)} {value} />
             </div>
           {/each}
         </div>
-      {/if}
+      </div>
     </div>
-  </div>
+  {/if}
+
 </div>
