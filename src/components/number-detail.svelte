@@ -9,6 +9,6 @@
 </script>
 
 <h5 class="text={textStyle}">
-  {count}
+  {count.toLocaleString()}
   <small>{`   ${name}`}</small>
 </h5>
