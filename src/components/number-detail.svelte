@@ -2,10 +2,13 @@
   export let name;
   export let count;
   export let textStyle;
-  import HRN from "human-readable-numbers";
+
+  const numberWithCommas = x => {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  };
 </script>
 
 <h5 class="text={textStyle}">
-  {HRN.toHumanString(count)}
+  {numberWithCommas(count)}
   <small>{`   ${name}`}</small>
 </h5>
