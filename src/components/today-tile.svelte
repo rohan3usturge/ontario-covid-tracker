@@ -50,7 +50,7 @@
     </div>
     <div class="mt-5" />
     <a href="/search" use:link class="btn text-white border-white">
-      Citwise Search
+      City-wise Search
     </a>
   </div>
 </div>
