@@ -118,7 +118,7 @@
   <div class="mt-2" />
 
   <div class="card">
-    <div class="card-body">
+    <div class="card-body p-1">
       <h6>
         <small class="text-muted">
           Apply Filters below using date and city

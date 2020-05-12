@@ -32,7 +32,7 @@
 </script>
 
 <div class="card">
-  <div class="card-body">
+  <div class="card-body p-0">
     <SvelteFC {...chartConfigs(value)} />
   </div>
 </div>
