@@ -24,20 +24,11 @@
   const chartConfigs = value => ({
     id: name,
     type: getChartType(id),
-    width: 320,
+    width: 280,
     height: 300,
     dataFormat: "json",
     dataSource: dataSource(value)
   });
-  jQuery.event.special.touchstart = {
-    setup: function(_, ns, handle) {
-      if (ns.includes("noPreventDefault")) {
-        this.addEventListener("touchstart", handle, { passive: false });
-      } else {
-        this.addEventListener("touchstart", handle, { passive: true });
-      }
-    }
-  };
 </script>
 
 <div class="card">
