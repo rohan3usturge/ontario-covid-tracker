@@ -10,12 +10,14 @@
   import moment from "moment";
   import { getDailyData } from "../services/search.service";
   import { displayName } from "../config";
+  import { link } from "svelte-routing";
 
   // State
   let todaysData;
   let dailyData = [];
   let trends = [];
   let yesterdaysData;
+  let newCasesData = {};
 
   // functions
 
@@ -47,6 +49,12 @@
       .add(dayMinus, "day")
       .startOf("day");
     yesterdaysData = getDataForDay(dailyData, yesterday);
+
+    newCasesData = {
+      totalCases: todaysData.totalCases - yesterdaysData.totalCases,
+      deaths: todaysData.deaths - yesterdaysData.deaths,
+      resolved: todaysData.resolved - yesterdaysData.resolved
+    };
 
     const totalCasesTrendData = dailyData.map(d => ({
       value: d.reportedDate,
@@ -140,39 +148,13 @@
 
   <div class="mt-2" />
   <div class="alert alert-primary" role="alert">
-    Data refreshes everyday around 10.30 EST.
+    <p class="text-bold">Quick Links</p>
+    <a href="/search" use:link class="btn btn-primary">City-wise Search</a>
   </div>
-
-  {#if todaysData && yesterdaysData}
-    <div class="mt-2" />
-    <div class="card border-primary">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-sm-4">
-            <NewCase
-              count={todaysData.totalCases - yesterdaysData.totalCases}
-              title="New Cases" />
-          </div>
-          <div class="col-sm-4">
-            <NewCase
-              count={todaysData.deaths - yesterdaysData.deaths}
-              title="New Deaths"
-              badgeStyle="danger" />
-          </div>
-          <div class="col-sm-4">
-            <NewCase
-              count={todaysData.resolved - yesterdaysData.resolved}
-              title="New Recoveries"
-              badgeStyle="success" />
-          </div>
-        </div>
-      </div>
-    </div>
-  {/if}
 
   <div class="mt-2" />
   {#if todaysData}
-    <TodayTile {todaysData} />
+    <TodayTile {todaysData} {newCasesData} />
   {/if}
 
   {#if trends}

@@ -15,8 +15,7 @@
     "Age_Group,sort:value",
     "Client_Gender",
     "Reporting_PHU_City",
-    "Outcome1",
-    "Accurate_Episode_Date,interval:day"
+    "Outcome1"
   ];
 
   // State
@@ -167,18 +166,22 @@
       </div>
       {#if outcomeCounts}
         <div class="mt-4" />
-        <div class="row">
-          {#each outcomeCounts as { name, count, textStyle }}
-            <div class="col-sm-6">
-              <NumberDetail {name} {count} {textStyle} />
-            </div>
-          {/each}
+        <div class="card">
+          <div class="card-body">
+            {#each outcomeCounts as { name, count, textStyle }}
+              <div class="col-sm-6">
+                <NumberDetail {name} {count} {textStyle} />
+              </div>
+            {/each}
+          </div>
         </div>
       {/if}
       {#if facetArray}
+        <div class="mt-4" />
         <div class="row">
           {#each facetArray as { name, value }}
-            <div class="col-sm m-1 p-0">
+            <div class="col-sm">
+              <div class="mt-1" />
               <Chart id={name} name={displayName(name)} {value} />
             </div>
           {/each}

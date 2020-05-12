@@ -1,12 +1,17 @@
 <script>
   export let count;
   export let title;
+  export let newCount;
   export let badgeStyle;
 </script>
 
-<h4>
-  <span class="w-25 badge badge-{badgeStyle || 'primary'}">{count}</span>
-  <small class="text-muted">
-    <em>{title} today</em>
-  </small>
-</h4>
+<div class="row">
+  <div class="col-6">
+    <span class="dot bg-{badgeStyle || 'primary'}">&nbsp;</span>
+    <span class="text-capitalize">{title}</span>
+  </div>
+  <div class="col-6">
+    <span>{count}</span>
+    <span class="badge badge-secondary">+ {count}</span>
+  </div>
+</div>
